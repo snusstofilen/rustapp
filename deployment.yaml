@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rustapp-deployment
+spec:
+  replicas: 3  # Number of desired replicas
+  selector:
+    matchLabels:
+      app: rustapp
+  template:
+    metadata:
+      labels:
+        app: rustapp
+    spec:
+      containers:
+      - name: rustapp
+        image: hiqelias/rustapp:latest  # Use the image from your registry
+        ports:
+        - containerPort: 3000

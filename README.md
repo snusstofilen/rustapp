@@ -30,3 +30,26 @@ npx specmatic  test --testBaseURL=http://localhost:3000  openapi.yaml
 
 This requires [specmatic](https://specmatic.in/getting_started.html) to be
 installed.
+
+## Kubernetes
+
+```sh
+minikube start --vm-driver=hyperv
+```
+
+```sh
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+```
+
+Access the node via the Minikube VM IP Adress obtained via
+```sh
+minikube ip
+```
+
+Using the Node port found via (under PORTS)
+```sh
+kubectl get svc
+```
+
+Then connect via http://<Minikube-IP>:<NodePort>
