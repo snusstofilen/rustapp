@@ -31,6 +31,22 @@ npx specmatic  test --testBaseURL=http://localhost:3000  openapi.yaml
 This requires [specmatic](https://specmatic.in/getting_started.html) to be
 installed.
 
+## Docker
+
+Build the Docker image via
+```sh
+docker build -f rustapp .
+```
+
+Then it needs to be pushed to Dockerhub so that Kubernetes can access it
+
+Running the container locally for testing purposes:
+```sh
+docker run -p 3000:3000 rustapp
+```
+
+It is then accessible via 127.0.0.1:3000.
+
 ## Kubernetes
 
 ```sh
@@ -52,4 +68,4 @@ Using the Node port found via (under PORTS)
 kubectl get svc
 ```
 
-Then connect via http://<Minikube-IP>:<NodePort>
+Then connect via http://\<Minikube-IP\>:\<NodePort\>
