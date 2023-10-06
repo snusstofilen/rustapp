@@ -1,4 +1,17 @@
-use axum::{routing::{get, post}, Router};
+use axum::{routing::{get, post}, Router, extract::State, Json};
+use serde::Deserialize;
+// use axum::{
+//     extract::State,
+//     response::IntoResponse,
+//     routing::{get, post},
+//     Json, Router,
+// };
+
+#[derive(Deserialize)]
+pub struct PostData {
+    a: String,
+    b: String,
+}
 
 #[tokio::main]
 async fn main() {
@@ -8,13 +21,16 @@ async fn main() {
     .route("/post_example", post(post_example_handler));
 
     // run it with hyper on localhost:3000
-    axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
+    axum::Server::bind(&"127.0.0.1:3000".parse().unwrap())
         .serve(app.into_make_service())
         .await
         .unwrap();
 }
 
-async fn post_example_handler() -> &'static str {
-    // Handle the POST request here
-    "Received a POST request"
+async fn post_example_handler(
+    // `Json` supports any type that implements `serde::Deserialize`
+    Json(payload): Json<PostData>,
+) -> String {
+    // use server_config and payload to run the `auth` logic
+    format!("{}, {}", payload.a, payload.b)
 }
