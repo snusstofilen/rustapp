@@ -1,11 +1,5 @@
 use axum::{routing::{get, post}, Router, extract::State, Json};
 use serde::Deserialize;
-// use axum::{
-//     extract::State,
-//     response::IntoResponse,
-//     routing::{get, post},
-//     Json, Router,
-// };
 
 #[derive(Deserialize)]
 pub struct PostData {
