@@ -38,7 +38,25 @@ Build the Docker image via
 docker build -f rustapp .
 ```
 
-Then it needs to be pushed to Dockerhub so that Kubernetes can access it
+Then it needs to be pushed to Dockerhub so that Kubernetes can access it.
+
+To use a local docker image in minikube, do the following:
+
+```sh
+minikube start
+eval $(minikube -p minikube docker-env) # Use minikube's docker environment when executing docker commands
+docker build -t hiqelias/rustapp:latest .
+kubectl apply -f deployment.yaml
+
+# Set the imagePullPolicy of the deployment to Never
+# This means that kubernetes will not look for images on the web
+kubectl edit deployment # Search for imagePullPolicy
+kubectl apply -f service.yaml
+minikube service rustapp-service --url
+
+# In another terminal, use the URL from the command above as the base URL for accessing the API
+curl http://<url-from-previous-command>/post_example
+```
 
 Running the container locally for testing purposes:
 ```sh
